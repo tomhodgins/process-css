@@ -7,6 +7,7 @@ export default function(
       otherFiles: []
     })
   ],
+  environment = {}
 ) {
   const processed = {
     css: stringOfCSS,
@@ -14,7 +15,7 @@ export default function(
     otherFiles: []
   }
   listOfPlugins.forEach(plugin => {
-    const result = plugin(processed.css)
+    const result = plugin(processed.css, environment)
 
     // Return the CSS you want to pass through to the next plugin
     if (result.css) {
