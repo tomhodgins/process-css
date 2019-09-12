@@ -1,9 +1,8 @@
-// run with: node node-cli-example.js input.css output/output.css output/output.js
+// run with: deno deno-cli-example.js input/input.css output/output.css output/output.js
 
-const fs = require('fs')
-const processCSS  = require('../index.cjs.js')
-const parseCSS = require('../../parse-css/index.cjs.js')
-// const patternMatcher = require('../../apophany/index.cjs.js')
+import processCSS from '../index.js'
+import * as parseCSS from  'https://tomhodgins.github.io/parse-css/index.js'
+// import patternMatcher from  'https://tomhodgins.github.io/apophany/index.js'
 // ↑ only uncomment if needed
 
 function customAtRule(string = '') {
@@ -38,7 +37,9 @@ virtualStyleSheetManager(
 }
 
 const output = processCSS(
-  fs.readFileSync(process.argv[2]).toString() || '',
+  new TextDecoder('utf-8').decode(
+    Deno.readFileSync(Deno.args[1])
+  ) || '',
   [
     customAtRule
   ]
@@ -48,9 +49,9 @@ if (
   output.css
   && typeof output.css === 'string'
 ) {
-  fs.writeFileSync(
-    process.argv[3] || 'output.css',
-    output.css
+  Deno.writeFileSync(
+    Deno.args[2] || 'output.css',
+    new TextEncoder().encode(output.css)
   )
 }
 
@@ -58,9 +59,9 @@ if (
   output.js
   && typeof output.js === 'string'
 ) {
-  fs.writeFileSync(
-    process.argv[4] || 'output.js',
-    output.js
+  Deno.writeFileSync(
+    Deno.args[3] || 'output.js',
+    new TextEncoder().encode(output.js)
   )
 }
 
@@ -70,9 +71,9 @@ if (
   && typeof output.js === 'string'
 ) {
   output.otherFiles.forEach(
-    ({filename, text}) => fs.writeFileSync(
+    ({filename, text}) => Deno.writeFileSync(
       filename,
-      text
+      new TextEncoder().encode(text)
     )
   )
 }
