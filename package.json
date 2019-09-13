@@ -1,6 +1,6 @@
 {
   "name": "process-css",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A CSS processor with a simple plugin design that can process CSS server-side and client-side into CSS, JS, and other file output",
   "main": "index.cjs.js",
   "directories": {
