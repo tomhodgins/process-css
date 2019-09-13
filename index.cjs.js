@@ -28,18 +28,18 @@
       const result = plugin(processed.css, environment)
 
       // Return the CSS you want to pass through to the next plugin
-      if (result.css) {
+      if (result.css !== undefined) {
         processed.css = result.css
       }
 
       // Accumulate any JS you need to output along the way to support things
-      if (result.js) {
+      if (result.js !== undefined) {
         processed.js += result.js
       }
 
       // Accumulate other files
       if (
-        result.otherFiles
+        result.otherFiles !== undefined
         && Array.isArray(result.otherFiles)
         && result.otherFiles.every(element => 
           element.hasOwnProperty('filename')
