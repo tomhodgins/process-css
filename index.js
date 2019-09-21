@@ -18,17 +18,17 @@ export default function(
     const result = plugin(processed.css, environment)
 
     // Return the CSS you want to pass through to the next plugin
-      if (result.css) {
+      if (typeof result.css !== 'undefined') {
       processed.css = result.css
     }
 
     // Accumulate any JS you need to output along the way to support things
-      if (result.js) {
+      if (typeof result.js !== 'undefined') {
       processed.js += result.js
     }
 
     // Accumulate other files
-      if (result.otherFiles) {
+      if (typeof result.otherFiles !== 'undefined') {
       Object.entries(result.otherFiles).forEach(([file, content]) => {
         if (processed.otherFiles.hasOwnProperty(file)) {
           processed.otherFiles[file] += `\n${content}`
