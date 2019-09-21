@@ -13,10 +13,11 @@ function customAtRule(string = '') {
         rule.type === 'AT-RULE'
         && rule.name === '--custom'
       ) {
+        result.otherFiles = {
+          'output/jsincss': 'function virtualStyleSheetManager() { }',
+          'output/plugin': 'function customAtRulePlugin() { }'
+        }
         result.js += `
-function virtualStyleSheetManager() { }
-function customAtRulePlugin() { }
-
 virtualStyleSheetManager(
   customAtRulePlugin(\`${
     rule.value.value
@@ -33,6 +34,7 @@ virtualStyleSheetManager(
     {
       css: '',
       js: '',
+      otherFiles: {}
     }
   )
 }
@@ -66,13 +68,12 @@ if (
 
 if (
   output.otherFiles
-  && output.otherFiles.length
-  && typeof output.js === 'string'
+  && Object.entries(output.otherFiles).length
 ) {
-  output.otherFiles.forEach(
-    ({filename, text}) => fs.writeFileSync(
-      filename,
-      text
+  Object.entries(output.otherFiles).forEach(
+    ([file,content]) => fs.writeFileSync(
+      file,
+      content
     )
   )
 }

@@ -12,10 +12,11 @@ function customAtRule(string = '') {
         rule.type === 'AT-RULE'
         && rule.name === '--custom'
       ) {
+        result.otherFiles = {
+          'output/jsincss': 'function virtualStyleSheetManager() { }',
+          'output/jsincss': 'function customAtRulePlugin() { }'
+        }
         result.js += `
-function virtualStyleSheetManager() { }
-function customAtRulePlugin() { }
-
 virtualStyleSheetManager(
   customAtRulePlugin(\`${
     rule.value.value
@@ -32,6 +33,7 @@ virtualStyleSheetManager(
     {
       css: '',
       js: '',
+      otherFiles: {}
     }
   )
 }
@@ -67,13 +69,12 @@ if (
 
 if (
   output.otherFiles
-  && output.otherFiles.length
-  && typeof output.js === 'string'
+  && Object.entries(output.otherFiles).length
 ) {
-  output.otherFiles.forEach(
-    ({filename, text}) => Deno.writeFileSync(
-      filename,
-      new TextEncoder().encode(text)
+  Object.entries(output.otherFiles).forEach(
+    ([file, content]) => Deno.writeFileSync(
+      file,
+      new TextEncoder().encode(content)
     )
   )
 }

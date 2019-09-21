@@ -28,10 +28,11 @@
           rule.type === 'AT-RULE'
           && rule.name === '--custom'
         ) {
+          result.otherFiles = {
+            jsincss: 'function virtualStyleSheetManager() { }',
+            plugin: 'function customAtRulePlugin() { }'
+          }
           result.js += `
-function virtualStyleSheetManager() { }
-function customAtRulePlugin() { }
-
 virtualStyleSheetManager(
   customAtRulePlugin(\`${
     rule.value.value
@@ -48,6 +49,7 @@ virtualStyleSheetManager(
       {
         css: '',
         js: '',
+        otherFiles: {}
       }
     )
   }
