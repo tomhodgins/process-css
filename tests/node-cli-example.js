@@ -1,7 +1,7 @@
 // run with: node node-cli-example.js input/input.css output/output.css output/output.js
 
 const fs = require('fs')
-const processCSS  = require('../index.cjs.js')
+const processCSS = require('../index.cjs.js')
 const parseCSS = require('../../parse-css/index.cjs.js')
 // const patternMatcher = require('../../apophany/index.cjs.js')
 // ↑ only uncomment if needed
